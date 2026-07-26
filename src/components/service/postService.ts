@@ -7,10 +7,25 @@ export type Post = {
   body: string
 }
 
-export async function getPosts(): Promise<Post[]> {
-  const response = await axiosInstance.get<Post[]>("/posts")
+export type Comment = {
+  postId: number
+  id: number
+  name: string
+  email: string
+  body: string
+}
 
+export const getPosts = async (): Promise<Post[]> => {
+  const response = await axiosInstance.get<Post[]>("/posts")
   return response.data
 }
 
+export const getPostById = async (id: number): Promise<Post> => {
+  const response = await axiosInstance.get<Post>(`/posts/${id}`)
+  return response.data
+}
 
+export const getCommentsByPostId = async (id: number): Promise<Comment[]> => {
+  const response = await axiosInstance.get<Comment[]>(`/posts/${id}/comments`)
+  return response.data
+}
